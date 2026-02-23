@@ -8,7 +8,6 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      # 1. حل مشكلة الـ Jar file (الصور اللي بعتها)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -39,21 +38,21 @@ jobs:
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
 
-      # 2. حل مشكلة الأيقونة (سحبها من الروت مباشرة)
       - name: Generate App Icon
         run: |
+          # بيسحب من الروت مباشرة ويطنش أي إيرور في المقاسات
           npx capacitor-assets generate --android --icon-only icon-only.png || true
 
       - name: Build APK
         run: |
           cd android
-          # 3. الحل النووي لصلاحيات الملفات (عشان الـ Jar يتكريت غصب عنه)
+          # السطرين دول هما الحل النهائي لمشكلة الـ Jar file اللي في صورك
+          # بيدي صلاحية مطلقة للمجلد عشان الجافا تعرف تكتب ملفاتها
           chmod -R 777 .
           ./gradlew clean
-          # منع الـ Daemon عشان يوفر رامات وما يفصلش منك
-          ./gradlew assembleDebug --no-daemon
+          # منع الـ Daemon بيخلي البناء أنضف وبدون مشاكل كاش
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
-      # 4. حل مشكلة الـ Deprecated (v4)
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
