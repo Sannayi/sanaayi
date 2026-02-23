@@ -27,28 +27,24 @@ jobs:
           cp *.png www/ 2>/dev/null || true
           cp *.js www/ 2>/dev/null || true
           cp *.css www/ 2>/dev/null || true
-          
-          # 2. إنشاء package.json لو مش موجود
-          if [ ! -f "package.json" ]; then
-            echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
-          fi
+          [ ! -f "package.json" ] && echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 3. تحميل الأدوات
+          # 2. تحميل الأدوات والتهيئة
           npm install @capacitor/core @capacitor/cli @capacitor/android
-
-          # 4. التهيئة (بدون force وبطريقة تضمن النجاح)
           [ -f capacitor.config.json ] && rm capacitor.config.json
           npx cap init Sanaayi com.sanaayi.app --web-dir www
-          
-          # 5. إضافة الأندرويد وبناؤه
           npx cap add android
           npx cap update android
           
-          # 6. منح الصلاحيات والبناء النهائي
+          # 3. حل مشكلة الـ Jar File اللعينة
+          # هنمسح أي كاش قديم ونخلي Gradle يشتغل في بيئة معزولة تماماً
+          rm -rf ~/.gradle/caches/
+          
+          # 4. البناء النهائي مع تعطيل الكاش المتسبب في المشكلة
           chmod -R 777 .
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug --no-daemon --no-build-cache
 
       - name: Save APK
         uses: actions/upload-artifact@v4
