@@ -8,7 +8,7 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      # الحل الجذري لمشكلة "Failed to create Jar file" اللي في صورك
+      # 1. حل مشكلة الـ Jar file (الصور اللي بعتها)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -39,7 +39,7 @@ jobs:
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
 
-      # بياخد icon-only.png من الروت ويحولها لأيقونة التطبيق
+      # 2. حل مشكلة الأيقونة (سحبها من الروت مباشرة)
       - name: Generate App Icon
         run: |
           npx capacitor-assets generate --android --icon-only icon-only.png || true
@@ -47,11 +47,13 @@ jobs:
       - name: Build APK
         run: |
           cd android
-          chmod +x gradlew
+          # 3. الحل النووي لصلاحيات الملفات (عشان الـ Jar يتكريت غصب عنه)
+          chmod -R 777 .
           ./gradlew clean
-          ./gradlew assembleDebug
+          # منع الـ Daemon عشان يوفر رامات وما يفصلش منك
+          ./gradlew assembleDebug --no-daemon
 
-      # v4 عشان مشكلة الـ Deprecated اللي في صورة رقم 2 تختفي
+      # 4. حل مشكلة الـ Deprecated (v4)
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
