@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21' # تم التحديث لـ 21 لتوافق Capacitor 8
+          java-version: '21'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -21,27 +21,32 @@ jobs:
 
       - name: Build Project
         run: |
-          # 1. تنظيف شامل
-          rm -rf android www package.json capacitor.config.json capacitor.config.ts
-          rm -rf ~/.gradle/caches/
-
-          # 2. تجهيز الملفات
+          # 1. تنظيف
+          rm -rf android www package.json capacitor.config.json
+          
+          # 2. تجهيز الملفات الأساسية
           mkdir -p www
           cp *.html www/ 2>/dev/null || true
-          cp *.png www/ 2>/dev/null || true
           cp *.js www/ 2>/dev/null || true
           cp *.css www/ 2>/dev/null || true
           echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 3. تحميل الأدوات
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          # 3. تثبيت الأدوات (ضفنا أداة الـ Assets هنا)
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest @capacitor/assets@latest
 
-          # 4. التهيئة
+          # 4. تهيئة المشروع
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
-          npx cap update android
 
-          # 5. صلاحيات وبناء
+          # 5. توليد الأيقونات أوتوماتيكياً من ملف icon-only.png
+          # هنجهز فولدر الـ assets اللي الأداة بتحتاجه
+          mkdir -p assets
+          cp icon-only.png assets/icon-only.png
+          # تشغيل الأداة لتوليد كل مقاسات الأندرويد
+          npx capacitor-assets generate --android --icon-path assets/icon-only.png
+
+          # 6. تحديث وبناء
+          npx cap update android
           chmod -R 777 .
           cd android
           chmod +x gradlew
