@@ -1,4 +1,3 @@
-
 name: Build Android APK
 on: [push]
 
@@ -7,10 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # تحديث لـ v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4 # خطوة ضرورية لبناء الأندرويد
+        with:
+          distribution: 'zulu'
+          java-version: '17' # إصدار 17 هو الأنسب لـ Gradle 8+
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # تحديث لـ v4
         with:
           node-version: 18
 
@@ -36,11 +41,17 @@ jobs:
       - name: Build APK
         run: |
           cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          # التأكد من وجود ملف gradlew وإعطاؤه صلاحية التنفيذ
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug
+          else
+            echo "Gradlew not found!"
+            exit 1
+          fi
 
       - name: Save APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # تحديث لـ v4 عشان يشتغل صح
         with:
           name: Sanaayi-App-Final
           path: android/app/build/outputs/apk/debug/app-debug.apk
