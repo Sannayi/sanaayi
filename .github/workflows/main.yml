@@ -22,7 +22,7 @@ jobs:
       - name: Build Project
         run: |
           # 1. تنظيف شامل
-          rm -rf android www package.json capacitor.config.json
+          rm -rf android www package.json capacitor.config.json capacitor.config.ts
           
           # 2. تجهيز ملفات الويب
           mkdir -p www
@@ -31,23 +31,22 @@ jobs:
           cp *.css www/ 2>/dev/null || true
           echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 3. تثبيت الأدوات
+          # 3. تحميل الأدوات
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest @capacitor/assets@latest
 
           # 4. تهيئة المشروع
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
 
-          # 5. توليد الأيقونات (تعديل الأمان)
-          mkdir -p assets
-          # التأكد من وجود الصورة قبل البدء
+          # 5. توليد الأيقونات (بالطريقة اللي الأداة بتفهمها تلقائياً)
           if [ -f "icon-only.png" ]; then
-            cp icon-only.png assets/icon.png
-            cp icon-only.png assets/splash.png
-            # توليد الأصول مع تحديد المسارات بدقة
-            npx capacitor-assets generate --android --icon-path assets/icon.png --splash-path assets/splash.png
+            mkdir -p assets
+            cp icon-only.png assets/logo.png
+            # الأداة بتدور تلقائياً على ملفات في فولدر assets
+            # هنستخدم أمر بسيط جداً بيعمل Generate لكل حاجة
+            npx capacitor-assets generate --android
           else
-            echo "Warning: icon-only.png not found, skipping assets generation."
+            echo "icon-only.png not found - skipping icons"
           fi
 
           # 6. تحديث وبناء
