@@ -12,12 +12,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21' # تم التحديث لـ 21 لتوافق Capacitor 8
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22 # ده التعديل المطلوب عشان الإصدار الجديد من Capacitor
+          node-version: 22
 
       - name: Build Project
         run: |
@@ -33,7 +33,7 @@ jobs:
           cp *.css www/ 2>/dev/null || true
           echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 3. تحميل أحدث أدوات Capacitor (إصدار 8 فما فوق)
+          # 3. تحميل الأدوات
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
           # 4. التهيئة
@@ -41,14 +41,10 @@ jobs:
           npx cap add android
           npx cap update android
 
-          # 5. حل مشكلة الـ Jar ومنح الصلاحيات
+          # 5. صلاحيات وبناء
           chmod -R 777 .
-          export GRADLE_OPTS="-Dorg.gradle.worker.max=2 -Dorg.gradle.vfs.watch=false"
-          
           cd android
           chmod +x gradlew
-          
-          # 6. البناء النهائي
           ./gradlew assembleDebug --no-daemon --no-build-cache
 
       - name: Save APK
