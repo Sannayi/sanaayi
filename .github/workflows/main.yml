@@ -19,34 +19,32 @@ jobs:
         with:
           node-version: 18
 
-      - name: Prepare Workspace
+      - name: Build Project
         run: |
+          # 1. تجهيز الملفات
           mkdir -p www
           cp *.html www/ 2>/dev/null || true
           cp *.png www/ 2>/dev/null || true
-          cp *.jpg www/ 2>/dev/null || true
-          cp *.css www/ 2>/dev/null || true
           cp *.js www/ 2>/dev/null || true
-          # إنشاء ملف package.json أساسي لو مش موجود
+          cp *.css www/ 2>/dev/null || true
+          
+          # 2. إنشاء package.json لو مش موجود
           if [ ! -f "package.json" ]; then
             echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
           fi
 
-      - name: Install Tools
-        run: |
+          # 3. تحميل الأدوات
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Initialize and Add Android
-        run: |
-          # التأكد من تهيئة المشروع
-          npx cap init Sanaayi com.sanaayi.app --web-dir www --force
-          # إضافة منصة الأندرويد (دي الخطوة اللي كانت ناقصة بتسبب الخطأ)
+          # 4. التهيئة (بدون force وبطريقة تضمن النجاح)
+          [ -f capacitor.config.json ] && rm capacitor.config.json
+          npx cap init Sanaayi com.sanaayi.app --web-dir www
+          
+          # 5. إضافة الأندرويد وبناؤه
           npx cap add android
-          # تحديث الملفات
           npx cap update android
-
-      - name: Grant Permissions & Build
-        run: |
+          
+          # 6. منح الصلاحيات والبناء النهائي
           chmod -R 777 .
           cd android
           chmod +x gradlew
