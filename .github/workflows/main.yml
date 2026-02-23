@@ -6,16 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v4 # تحديث لـ v4
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v4 # خطوة ضرورية لبناء الأندرويد
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # إصدار 17 هو الأنسب لـ Gradle 8+
+          java-version: '17'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # تحديث لـ v4
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -32,26 +32,34 @@ jobs:
       - name: Install Tools
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
+          # تحديث الكاباسيتور لضمان توافق الملفات
+          npx cap update android
 
       - name: Initialize Android Project
         run: |
-          npx cap init Sanaayi com.sanaayi.app --web-dir www
-          npx cap add android
+          # نستخدم --force لو المشروع موجود قبل كدا عشان نتجنب التعارض
+          npx cap init Sanaayi com.sanaayi.app --web-dir www --force
+          # لو فولدر الاندرويد مش موجود ضيفه
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+
+      - name: Grant Permissions & Clean
+        run: |
+          # منح صلاحيات كاملة للمجلد لضمان قدرة Gradle على الكتابة
+          chmod -R 777 .
+          cd android
+          chmod +x gradlew
+          ./gradlew clean
 
       - name: Build APK
         run: |
           cd android
-          # التأكد من وجود ملف gradlew وإعطاؤه صلاحية التنفيذ
-          if [ -f "gradlew" ]; then
-            chmod +x gradlew
-            ./gradlew assembleDebug
-          else
-            echo "Gradlew not found!"
-            exit 1
-          fi
+          # تشغيل البناء مع تعطيل الـ Daemon لتقليل مشاكل الذاكرة والصلاحيات
+          ./gradlew assembleDebug --no-daemon
 
       - name: Save APK
-        uses: actions/upload-artifact@v4 # تحديث لـ v4 عشان يشتغل صح
+        uses: actions/upload-artifact@v4
         with:
           name: Sanaayi-App-Final
           path: android/app/build/outputs/apk/debug/app-debug.apk
