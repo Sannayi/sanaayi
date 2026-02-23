@@ -1,3 +1,4 @@
+
 name: Build Android APK
 on: [push]
 
@@ -6,16 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
@@ -31,27 +26,21 @@ jobs:
 
       - name: Install Tools
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Initialize Android Project
         run: |
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
 
-      - name: Generate App Icon
-        run: |
-          npx capacitor-assets generate --android --icon-only icon-only.png || true
-
       - name: Build APK
         run: |
           cd android
           chmod +x gradlew
-          # تنظيف وبناء مع إعطاء أوامر للجافا إنها متفشلش في إنشاء الـ Jar
-          ./gradlew clean
-          ./gradlew assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m"
+          ./gradlew assembleDebug
 
       - name: Save APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: Sanaayi-App-Final
           path: android/app/build/outputs/apk/debug/app-debug.apk
