@@ -21,9 +21,10 @@ jobs:
 
       - name: Build Project
         run: |
-          # 1. تنظيف شامل
+          # 1. تنظيف شامل لكل المخلفات القديمة
           rm -rf android www package.json capacitor.config.json capacitor.config.ts
-          
+          rm -rf ~/.gradle/caches/
+
           # 2. تجهيز ملفات الويب
           mkdir -p www
           cp *.html www/ 2>/dev/null || true
@@ -31,27 +32,30 @@ jobs:
           cp *.css www/ 2>/dev/null || true
           echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 3. تحميل الأدوات
+          # 3. تحميل الأدوات (Capacitor + Assets)
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest @capacitor/assets@latest
 
-          # 4. تهيئة المشروع
+          # 4. تهيئة مشروع الأندرويد
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
 
-          # 5. توليد الأيقونات (بالطريقة اللي الأداة بتفهمها تلقائياً)
+          # 5. توليد الأيقونات وحل مشكلة المقاس والحدود البيضاء
           if [ -f "icon-only.png" ]; then
             mkdir -p assets
             cp icon-only.png assets/logo.png
-            # الأداة بتدور تلقائياً على ملفات في فولدر assets
-            # هنستخدم أمر بسيط جداً بيعمل Generate لكل حاجة
-            npx capacitor-assets generate --android
+            # ضبط اللوجو ليكون في المنتصف (scale 1.0) مع خلفية بيضاء
+            # لو اللوجو لسه صغير، ممكن تغير 1.0 لـ 1.1 أو 1.2 لاحقاً
+            npx capacitor-assets generate --android --icon-background-color "#ffffff" --icon-foreground-scale 1.0
           else
-            echo "icon-only.png not found - skipping icons"
+            echo "icon-only.png not found - skipping assets generation"
           fi
 
-          # 6. تحديث وبناء
+          # 6. تحديث المنصة ومنح الصلاحيات
           npx cap update android
           chmod -R 777 .
+          
+          # 7. حل مشكلة الـ Jar file والبناء النهائي
+          export GRADLE_OPTS="-Dorg.gradle.worker.max=2 -Dorg.gradle.vfs.watch=false"
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --no-build-cache
