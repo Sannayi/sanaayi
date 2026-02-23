@@ -11,48 +11,45 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin' # التوزيعة الأكثر استقراراً لحل مشاكل المكتبات
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # ده التعديل المطلوب عشان الإصدار الجديد من Capacitor
 
       - name: Build Project
         run: |
-          # 1. تنظيف شامل للبيئة (لضمان عدم وجود مخلفات من محاولات سابقة)
+          # 1. تنظيف شامل
           rm -rf android www package.json capacitor.config.json capacitor.config.ts
           rm -rf ~/.gradle/caches/
 
-          # 2. تجهيز ملفات الويب
+          # 2. تجهيز الملفات
           mkdir -p www
           cp *.html www/ 2>/dev/null || true
           cp *.png www/ 2>/dev/null || true
-          cp *.jpg www/ 2>/dev/null || true
           cp *.js www/ 2>/dev/null || true
           cp *.css www/ 2>/dev/null || true
-          
-          # 3. إنشاء package.json
           echo '{"name": "sanaayi", "version": "1.0.0"}' > package.json
 
-          # 4. تثبيت Capacitor بأحدث إصدارات مستقرة
+          # 3. تحميل أحدث أدوات Capacitor (إصدار 8 فما فوق)
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-          # 5. تهيئة المشروع وإضافة المنصة
+          # 4. التهيئة
           npx cap init Sanaayi com.sanaayi.app --web-dir www
           npx cap add android
           npx cap update android
 
-          # 6. منح صلاحيات كاملة وحل مشكلة الـ Jar file
+          # 5. حل مشكلة الـ Jar ومنح الصلاحيات
           chmod -R 777 .
           export GRADLE_OPTS="-Dorg.gradle.worker.max=2 -Dorg.gradle.vfs.watch=false"
           
           cd android
           chmod +x gradlew
           
-          # 7. البناء النهائي مع تعطيل الكاش ومنع التضارب
-          ./gradlew assembleDebug --no-daemon --no-build-cache --stacktrace
+          # 6. البناء النهائي
+          ./gradlew assembleDebug --no-daemon --no-build-cache
 
       - name: Save APK
         uses: actions/upload-artifact@v4
