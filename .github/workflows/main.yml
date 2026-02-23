@@ -40,18 +40,18 @@ jobs:
 
       - name: Generate App Icon
         run: |
-          # بيسحب من الروت مباشرة ويطنش أي إيرور في المقاسات
           npx capacitor-assets generate --android --icon-only icon-only.png || true
 
       - name: Build APK
         run: |
           cd android
-          # السطرين دول هما الحل النهائي لمشكلة الـ Jar file اللي في صورك
-          # بيدي صلاحية مطلقة للمجلد عشان الجافا تعرف تكتب ملفاتها
-          chmod -R 777 .
+          # السطر ده هو "القاضية" لمشكلة الـ Jar file اللي في صورك
+          # بيدي صلاحية كتابة للمجلد اللي السيستم كان رافض يخلي الجافا تكتب فيه
+          sudo chmod -R 777 /home/runner/.gradle
+          chmod +x gradlew
           ./gradlew clean
-          # منع الـ Daemon بيخلي البناء أنضف وبدون مشاكل كاش
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          # تشغيل البناء بدون كاش قديم عشان نضمن النضافة
+          ./gradlew assembleDebug --no-daemon --no-build-cache
 
       - name: Save APK
         uses: actions/upload-artifact@v4
