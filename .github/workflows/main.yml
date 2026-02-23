@@ -45,13 +45,10 @@ jobs:
       - name: Build APK
         run: |
           cd android
-          # السطر ده هو "القاضية" لمشكلة الـ Jar file اللي في صورك
-          # بيدي صلاحية كتابة للمجلد اللي السيستم كان رافض يخلي الجافا تكتب فيه
-          sudo chmod -R 777 /home/runner/.gradle
           chmod +x gradlew
+          # تنظيف وبناء مع إعطاء أوامر للجافا إنها متفشلش في إنشاء الـ Jar
           ./gradlew clean
-          # تشغيل البناء بدون كاش قديم عشان نضمن النضافة
-          ./gradlew assembleDebug --no-daemon --no-build-cache
+          ./gradlew assembleDebug --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
       - name: Save APK
         uses: actions/upload-artifact@v4
