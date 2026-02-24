@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Project
         run: |
-          # 1.  وتصفير البيئة
+          # 1.  وتصفير 
           rm -rf android www package.json capacitor.config.*
           rm -rf ~/.gradle/caches/
 
