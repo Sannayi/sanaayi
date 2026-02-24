@@ -175,14 +175,14 @@
 
     <div class="debt-alert-box">
         <div class="debt-info">
-            <span>مديونية المنصة (عمولة 10%)</span>
+            <span>رسوم المنصة (رسوم 10%)</span>
             <span id="debtText" style="color: var(--danger); font-weight: 900;">0 ج.م</span>
         </div>
         <div class="progress-bar">
             <div id="debtProgress" class="progress-fill"></div>
         </div>
         <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 8px;">
-            * عند وصول المديونية لـ 200 ج.م سيتم تعليق استقبال الطلبات تلقائياً.
+            * عند وصول الرسوم لـ 200 ج.م سيتم تعليق استقبال الطلبات تلقائياً.
         </p>
     </div>
 
@@ -210,7 +210,7 @@
 
     <div class="floating-actions">
         <button onclick="payViaWhatsApp()" class="btn-main">
-            <i class="fa-solid fa-paper-plane"></i> سداد العمولة (01104452609)
+            <i class="fa-solid fa-paper-plane"></i> سداد الرسوم فودافون كاش (01104452609)
         </button>
     </div>
 
@@ -314,7 +314,7 @@
 
     window.payViaWhatsApp = () => {
         const debt = document.getElementById('debtText').innerText;
-        const msg = `يا هندسة، أنا الفني: ${auth.currentUser.displayName}\nعايز أسدد عمولة المنصة المستحقة: ${debt}`;
+        const msg = `يا هندسة، أنا الفني: ${auth.currentUser.displayName}\nعايز أسدد رسوم المنصة المستحقة: ${debt}`;
         window.location.href = `https://wa.me/201104452609?text=${encodeURIComponent(msg)}`;
     };
 </script>
