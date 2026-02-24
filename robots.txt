@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+# منع الزحف لصفحات التحكم والبيانات الخاصة
+Disallow: /provider-dashboard.html
+Disallow: /profile.html
+Disallow: /wallet.html
+Disallow: /chat.html
+Disallow: /wallet.html
+Disallow: /My-Orders.html
+# رابط خريطة الموقع (استبدل YOUR-DOMAIN برابط موقعك الحقيقي)
+Sitemap: https://sanaayi.pages.dev/sitemap.xml
