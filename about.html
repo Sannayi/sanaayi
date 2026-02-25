@@ -103,14 +103,96 @@
             font-size: 0.7rem;
             color: #94a3b8;
             background: #f1f5f9;
-        }
+        }/* تنسيق المقارنة الاحترافي */
+.comparison-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.comp-card {
+    border-radius: 20px;
+    padding: 25px;
+    font-size: 0.9rem;
+    position: relative;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.comp-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 10px;
+}
+
+.comp-card ul {
+    margin: 0;
+    padding-right: 15px;
+    list-style: none;
+}
+
+.comp-card li {
+    position: relative;
+    margin-bottom: 12px;
+    color: var(--text);
+    line-height: 1.7;
+    text-align: justify;
+}
+
+/* علامة مميزة لكل نقطة */
+.comp-card li::before {
+    content: "\f0a1"; /* أيقونة ميكروفون صغيرة لشد الانتباه */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: -22px;
+    top: 2px;
+    font-size: 0.8rem;
+}
+
+/* الكارت التقليدي: رمادي كلاسيكي مريح للعين لكنه "باهت" */
+.legacy-way {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+.legacy-way .comp-header { color: #475569; }
+.legacy-way li::before { color: #94a3b8; }
+.legacy-way strong { color: #0f172a; border-bottom: 1px dashed #94a3b8; }
+
+/* كارت شركة صنايعي: برتقالي مع خلفية بيضاء فخمة وظل ناعم */
+.company-way {
+    background: #ffffff;
+    border: 2px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(255, 90, 0, 0.1);
+}
+.company-way .comp-header { color: var(--primary); }
+.company-way li::before { color: var(--primary); }
+.company-way strong { 
+    color: var(--dark); 
+    background: linear-gradient(to bottom, transparent 60%, #fff7ed 60%); 
+}
+
+/* تأثير التفاعل */
+.company-way:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(255, 90, 0, 0.15);
+}
+
+strong { font-weight: 800; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>  السياسات وشروط الاحكام</h1>
+        <h1>المركز القانوني والسياسات</h1>
         <p>منصة صنايعي - Sanaayi Platform</p>
     </div>
 
@@ -122,19 +204,53 @@
                 "صنايعي" هي منصة وسيطة تربط بين مقدمي الخدمات المحترفين (الفنيين) وبين طالبي الخدمة (العملاء). نحن لسنا جهة توظيف، بل موفر للتقنية التي تنظم هذا التعامل لضمان الشفافية والجودة.
             </p>
         </div>
+<div class="policy-section">
+    <h2><i class="fa-solid fa-medal"></i> ليه تطلب من "صنايعي" وأنت مطمن؟</h2>
+    
+    <div class="comparison-grid">
+        <div class="comp-card legacy-way">
+            <div class="comp-header">
+                <i class="fa-solid fa-user-slash"></i>
+                <span>النظام القديم (الاتصال المباشر)</span>
+            </div>
+            <ul>
+                <li><strong> البحث:</strong> بتلف وتدور وتسأل الجيران "متعرفوش حد بيصلح كذا ؟" وفي الآخر بتجيب حد مش مضمون وتجرب في بيتك.</li>
+                <li><strong>دوامة المواعيد:</strong> "أنا في الطريق يا باشا" واليوم يضيع والفني مايجيش، مفيش أي التزام قانوني أو أخلاقي بالوقت.</li>
+                <li><strong>عدة ناقصة:</strong> ييجي يبص ويقولك "محتاجين قطعة غيار كذا" وينزل يغيب ساعتين ويرجع يطلب يوم تاني عشان العدة مش معاه.</li>
+                <li><strong>فصال ومفاجآت:</strong> السعر بيتحدد حسب "الهوا" مفيش تسعيرة واضحة ، وغالباً بتدفع رقم أكبر من قيمة الخدمة الحقيقية.</li>
+                <li><strong>لو باظت مفيش ضمان:</strong> لو الصنايعي مشي ولقيت المشكلة لسه موجودة ، انسى إنك تعرف تخليه يرجع يصلحها.</li>
+            </ul>
+        </div>
+
+        <div class="comp-card company-way">
+            <div class="comp-header">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>سيستم منصه "صنايعي" </span>
+            </div>
+            <ul>
+                <li><strong>فنيين متصنفين:</strong> مش أي حد بيدخل المنصة؛ الفنيين عندنا بيمروا بتوثيق بيانات وارقام قوميه عشان نضمن لك "الأمان" قبل الشغل.</li>
+                <li><strong>مواعيد بالدقيقة:</strong> السيستم بيحجز الميعاد وبيتابع تحرك الفني بالـ GPS لضمان إنه عندك في الوقت المتفق عليه بالثانية.</li>
+                <li><strong>المعاينة أونلاين:</strong> ميزة الشات بتخليك تبعت فيديو أو صورة للمشكلة ، فالفني بييجي مجهز شنطته وعامل حسابه في قطع الغيار . "تخلص في قعدة".</li>
+                <li><strong>رقابة مالية صارمة:</strong> عندنا سيستم تسعير عادل ؛ الفني بيلتزم بسعر عادل ، ولو حاول يبالغ في السعر ، بضغطة زرار بتقدم شكوى وباقي فلوسك بترجعلك.</li>
+                <li><strong>ضمان مابعد الزيارة:</strong> مصلحتنا إنك تكون راضي، لو الشغل فيه ملاحظات ، فريق الجودة بيتدخل فوراً وبنلزم الفني بإصلاح الخطأ أو استبداله.</li>
+                <li><strong>حقك محفوظ قانونياً:</strong> التعامل من خلال المنصة بيوثق كل مليم دفعته وكل كلمة اتقالت ، وده بيضمن لك حقك كامل في حالة وجود نزاع.</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
         <div class="policy-section">
             <h2><i class="fa-solid fa-user-shield"></i> سياسة الفنيين</h2>
             <ul>
                 <li>يلتزم الفني بتقديم معلومات صحيحة ودقيقة عند التسجيل.</li>
-                <li>أي تلاعب في الأسعار المتفق عليها مع العميل عبر التطبيق يؤدي لحظر الحساب نهائياً.</li>
-                <li>يتم سداد رسوم المنصة (10%) فور تحصيل المبلغ من العميل دون تأخير.</li>
+                <li>أي تلاعب في الأسعار المتفق عليها عبر التطبيق يؤدي لحظر الحساب نهائياً.</li>
+                <li>يتم سداد عمولة المنصة (10%) فور تحصيل المبلغ من العميل دون تأخير.</li>
             </ul>
         </div>
 
         <div class="warning-box">
             <i class="fa-solid fa-triangle-exclamation"></i>
-            تنبيه: محاولة التواصل مع العميل خارج إطار المنصة للتهرب من الرسوم المفروضة تعرضك للحظر وإغلاق حسابك فوراً وبشكل نهائي.
+            تنبيه: محاولة التواصل مع العميل خارج إطار المنصة للتهرب من العمولة تعرضك للملاحقة القانونية وإغلاق حسابك فوراً وبشكل نهائي.
         </div>
 
         <div class="policy-section">
