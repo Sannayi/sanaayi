@@ -25,7 +25,7 @@ jobs:
           rm -rf android www package.json capacitor.config.*
           rm -rf ~/.gradle/caches/
 
-          # 2. تجهيز ملفات الويب (المحتوى بتاعك)
+          # 2. تجهيز  الويب (المحتوى بتاعك)
           mkdir -p www
           cp *.html www/ 2>/dev/null || true
           cp *.js www/ 2>/dev/null || true
