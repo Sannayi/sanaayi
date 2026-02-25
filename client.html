@@ -238,48 +238,47 @@ textarea.input-style {
 .bottom-nav {
     position: fixed; 
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     width: 100%;
     max-width: 420px; 
     margin: 0 auto; 
     background: white;
-    /* 1. تقليل الارتفاع الإجمالي ليكون أنحف ما يمكن */
-    height: 48px; 
+    
+    /* 1. ارتفاع مناسب للعناصر الكبيرة */
+    height: 65px; 
+    
     display: flex;
     justify-content: space-around;
-    /* 2. محاذاة العناصر للأسفل قليلاً بدل السنترة التامة */
+    
+    /* 2. دفع العناصر لأسفل البار لتقليل الامتداد العلوي */
     align-items: flex-end; 
-    /* 3. تقليل الـ padding السفلي لتقريب العناصر من الحافة */
-    padding-bottom: 5px; 
+    padding-bottom: 8px; /* مسافة بسيطة من الحافة السفلية */
+    
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    /* 4. تقليل امتداد الـ border الدائري العلوي */
-    border-radius: 12px 12px 0 0; 
+    
+    /* 3. تقليل الانحناء العلوي لتبدو "نازلة" أكثر */
+    border-radius: 15px 15px 0 0; 
     z-index: 9999;
 }
 
 .nav-item { 
-    text-align: center; 
-    color: #adb5bd; 
-    cursor: pointer; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* 5. تقليل المسافة بين الأيقونة والنص */
-    gap: 0px; 
+    gap: 2px; /* المسافة بين الأيقونة والنص */
 }
 
 .nav-item i { 
-    /* 6. تصغير حجم الأيقونة لتناسب الارتفاع الجديد */
-    font-size: 16px; 
-    margin-bottom: -2px; /* دفع الأيقونة للأسفل قليلاً */
+    /* 4. تكبير حجم الأيقونة */
+    font-size: 22px; 
 }
 
 .nav-item span { 
-    /* 7. أصغر حجم خط ممكن ليبقى مقروءاً */
-    font-size: 8px; 
+    /* 5. تكبير حجم النص */
+    font-size: 11px; 
     font-weight: bold;
 }
+
 
 .hidden { display: none !important; }
 .animate-up { animation: slideUp 0.4s ease-out; }
