@@ -235,47 +235,50 @@ textarea.input-style {
 
         /* Navigation Bar */
 /* التعديل النهائي للبار السفلي */
+/* التعديل النهائي للبار السفلي */
 .bottom-nav {
     position: fixed; 
     bottom: 0;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     max-width: 420px; 
     margin: 0 auto; 
     background: white;
-    
-    /* 1. ارتفاع مناسب للعناصر الكبيرة */
-    height: 65px; 
-    
+    /* 1. تقليل الارتفاع الإجمالي ليكون أنحف ما يمكن */
+    height: 40px; 
     display: flex;
     justify-content: space-around;
-    
-    /* 2. دفع العناصر لأسفل البار لتقليل الامتداد العلوي */
+    /* 2. محاذاة العناصر للأسفل قليلاً بدل السنترة التامة */
     align-items: flex-end; 
-    padding-bottom: 8px; /* مسافة بسيطة من الحافة السفلية */
-    
+    /* 3. تقليل الـ padding السفلي لتقريب العناصر من الحافة */
+    padding-bottom: 5px; 
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    
-    /* 3. تقليل الانحناء العلوي لتبدو "نازلة" أكثر */
-    border-radius: 15px 15px 0 0; 
+    /* 4. تقليل امتداد الـ border الدائري العلوي */
+    border-radius: 8px 8px 0 0; 
     z-index: 9999;
 }
 
 .nav-item { 
+    text-align: center; 
+    color: #adb5bd; 
+    cursor: pointer; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px; /* المسافة بين الأيقونة والنص */
+    /* 5. تقليل المسافة بين الأيقونة والنص */
+    gap: 0px; 
 }
 
 .nav-item i { 
-    /* 4. تكبير حجم الأيقونة */
-    font-size: 22px; 
+    /* 6. تصغير حجم الأيقونة لتناسب الارتفاع الجديد */
+    font-size: 20px; 
+    margin-bottom: -2px; /* دفع الأيقونة للأسفل قليلاً */
 }
 
 .nav-item span { 
-    /* 5. تكبير حجم النص */
-    font-size: 11px; 
+    /* 7. أصغر حجم خط ممكن ليبقى مقروءاً */
+    font-size: 8px; 
     font-weight: bold;
 }
 
