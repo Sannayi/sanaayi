@@ -80,20 +80,52 @@
 }
 
 /* تصغير شريط البحث ورفعه */
+/* تنسيق صندوق البحث الاحترافي */
 .search-box {
-    background: #f1f3f5; 
-    padding: 6px 15px; /* تقليل الارتفاع الداخلي للبحث */
-    border-radius: 12px;
+    background: #ffffff; /* تغيير الخلفية للأبيض لتبدو أنظف */
+    padding: 10px 18px; 
+    border-radius: 20px; /* زوايا دائرية أكثر انسيابية */
     display: flex; 
     align-items: center; 
-    gap: 8px;
+    gap: 12px;
+    border: 1.5px solid #eee; /* إطار خفيف جداً */
+    transition: all 0.3s ease; /* تنعيم الحركات */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* ظل خفيف جداً */
 }
 
-.search-box input {
-    font-size: 13px; /* تصغير خط الكتابة داخل البحث */
+/* تأثير عند الضغط على البحث (Focus) */
+.search-box:focus-within {
+    border-color: var(--primary); /* تغيير لون الإطار للبرتقالي */
+    box-shadow: 0 4px 12px rgba(255, 90, 0, 0.1); /* ظل برتقالي خفيف */
+    background: #fff;
+    transform: translateY(-1px); /* رفعة خفيفة جداً */
 }
 
+/* تنسيق الأيقونة */
 .search-box i {
+    color: #adb5bd;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.search-box:focus-within i {
+    color: var(--primary); /* الأيقونة تنور برتقالي عند البحث */
+}
+
+/* تنسيق مكان الكتابة */
+.search-box input {
+    border: none; 
+    background: none; 
+    outline: none; 
+    width: 100%; 
+    font-size: 14px; 
+    color: #333;
+    font-family: inherit;
+}
+
+/* تغيير لون النص الإرشادي (Placeholder) */
+.search-box input::placeholder {
+    color: #bfbfbf;
     font-size: 13px;
 }
 
