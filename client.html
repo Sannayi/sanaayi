@@ -234,6 +234,7 @@ textarea.input-style {
 .btn-confirm:active { transform: scale(0.98); }
 
         /* Navigation Bar */
+/* التعديل النهائي للبار السفلي */
 .bottom-nav {
     position: fixed; 
     bottom: 0;
@@ -243,44 +244,41 @@ textarea.input-style {
     max-width: 420px; 
     margin: 0 auto; 
     background: white;
-    /* تم تقليل الارتفاع من 70px إلى 58px لنزوله لأسفل ورفع مساحة الرؤية */
-    height: 58px; 
+    /* 1. تقليل الارتفاع الإجمالي ليكون أنحف ما يمكن */
+    height: 48px; 
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-    /* تقليل الانحناء العلوي قليلاً ليناسب الارتفاع الصغير */
-    border-radius: 18px 18px 0 0; 
+    /* 2. محاذاة العناصر للأسفل قليلاً بدل السنترة التامة */
+    align-items: flex-end; 
+    /* 3. تقليل الـ padding السفلي لتقريب العناصر من الحافة */
+    padding-bottom: 5px; 
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    /* 4. تقليل امتداد الـ border الدائري العلوي */
+    border-radius: 12px 12px 0 0; 
     z-index: 9999;
-    /* إضافة مساحة أمان للأجهزة الحديثة لضمان عدم التصاقه بالحافة تماماً */
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav-item { 
     text-align: center; 
     color: #adb5bd; 
     cursor: pointer; 
-    /* توزيع العناصر عمودياً بشكل مضغوط */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-}
-
-.nav-item.active { 
-    color: var(--primary); 
+    /* 5. تقليل المسافة بين الأيقونة والنص */
+    gap: 0px; 
 }
 
 .nav-item i { 
-    /* تصغير الأيقونة من 20px إلى 18px لتناسب الارتفاع الجديد */
-    font-size: 18px; 
-    display: block; 
+    /* 6. تصغير حجم الأيقونة لتناسب الارتفاع الجديد */
+    font-size: 16px; 
+    margin-bottom: -2px; /* دفع الأيقونة للأسفل قليلاً */
 }
 
 .nav-item span { 
-    /* تصغير الخط من 10px إلى 9px ليكون "أكنز" */
-    font-size: 9px; 
-    font-weight: bold; 
+    /* 7. أصغر حجم خط ممكن ليبقى مقروءاً */
+    font-size: 8px; 
+    font-weight: bold;
 }
 
 .hidden { display: none !important; }
