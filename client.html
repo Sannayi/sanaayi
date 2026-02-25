@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Sanaayi | الرئيسية</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -18,12 +18,24 @@
             margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        .app-frame {
-            background: var(--bg-light);
-            width: 100%; max-width: 420px; height: 90vh; max-height: 850px;
-            border-radius: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-        }
+ .app-frame {
+    background: var(--bg-light);
+    width: 100%; max-width: 420px; 
+    /* التعديل هنا */
+    height: 100vh; 
+    height: 100dvh; 
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+    /* إلغاء الـ border-radius في الموبايل لضمان عدم وجود فراغات */
+}
+
+@media (max-width: 500px) {
+    .app-frame { 
+        height: 100vh; 
+        height: 100dvh; 
+        max-width: 100%; 
+        border-radius: 0; 
+    }
+}
 
         @media (max-width: 500px) {
             .app-frame { max-width: 100%; height: 100vh; border-radius: 0; }
@@ -149,13 +161,24 @@ textarea.input-style {
 .btn-confirm:active { transform: scale(0.98); }
 
         /* Navigation Bar */
-        .bottom-nav {
-            position: absolute; bottom: 0; width: 100%;
-            background: white; height: 70px;
-            display: flex; justify-content: space-around; align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            border-radius: 30px 30px 0 0;
-        }
+.bottom-nav {
+    position: fixed; /* تغيير من absolute لـ fixed */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 420px; /* لو في الكمبيوتر يفضل واخد حجم الفريم */
+    margin: 0 auto; /* لسنترة البار في شاشات الكمبيوتر */
+    background: white;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    border-radius: 20px 20px 0 0;
+    z-index: 9999;
+}
+
         .nav-item { text-align: center; color: #adb5bd; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
         .nav-item i { font-size: 20px; display: block; }
